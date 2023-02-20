@@ -2,14 +2,15 @@ package sg.edu.ntu;
 
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+// import java.util.concurrent.Executors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+// import org.apache.logging.log4j.LogManager;
+// import org.apache.logging.log4j.Logger;
 
+import sg.edu.ntu.executorService.NotificationExecutor;
 import sg.edu.ntu.notification.CustomNotification;
 import sg.edu.ntu.notification.EmailNotification;
-import sg.edu.ntu.notification.SMSNotification;
+// import sg.edu.ntu.notification.SMSNotification;
 import sg.edu.ntu.queue.NotificationQueue;
 
 public class App {
@@ -26,7 +27,7 @@ public class App {
 
     // Declare a thread pool executor
     int poolSize = 5;
-    ExecutorService executor = Executors.newFixedThreadPool(poolSize);
+    ExecutorService executor = NotificationExecutor.getInstance(poolSize);
 
     // Create Runnable object
     Runnable emailSender = () -> {

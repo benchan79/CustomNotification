@@ -1,23 +1,37 @@
 package sg.edu.ntu.notification;
 
+import java.util.concurrent.CompletableFuture;
+
 import sg.edu.ntu.api.Connectable;
 
 public class SMSNotification extends CustomNotification implements Connectable{
-
+    private String index;
     // Constructor
-    public SMSNotification(String to, String content){
+    public SMSNotification(String index, String to, String content){
         /*
          * The super keyword calls the parent's constructor
          */
         super(to, content);
+        this.index = index;
         this.init();
     }
 
     // Method overriding
     @Override
     public void send(){
-        // Add code      
-    }
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            if (!CustomNotification.isOperating)
+              throw new RuntimeException("Notification is currently not operating");
+            System.out.println("Sending SMS " + this.index + " to " + this.to + " asynchronously");
+            return "success";
+          }).exceptionally((throwable) -> {
+            System.out.println("Exception caught - " + throwable.getMessage());
+            return "Error sending SMS " + this.index + " to " + this.to;
+          });
+      
+          // future.thenAccept(result -> System.out.println("Status: " + result));
+          future.thenAccept(result -> {}); // Remove msg for tidier output
+        }
 
     @Override
     public void init() {

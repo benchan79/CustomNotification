@@ -4,7 +4,7 @@ import sg.edu.ntu.api.Connectable;
 
 public abstract class CustomNotification implements Connectable {
  
-    public static boolean isOperating = false;
+    public static boolean isOperating = true;
 
     // By default, private.
     String to;

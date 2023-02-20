@@ -1,6 +1,6 @@
 package sg.edu.ntu.notification;
 
-import java.util.concurrent.CompletableFuture;
+// import java.util.concurrent.CompletableFuture;
 import sg.edu.ntu.api.Connectable;
 
 public class EmailNotification extends CustomNotification implements Connectable {
@@ -14,18 +14,13 @@ public class EmailNotification extends CustomNotification implements Connectable
 
   @Override
   public void send() {
-    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
-      if (!CustomNotification.isOperating)
-        throw new RuntimeException("Notification is currently not operating");
-      System.out.println("Sending email " + this.index + " to " + this.to + " asynchronously");
-      return "success";
-    }).exceptionally((throwable) -> {
-      System.out.println("Exception caught - " + throwable.getMessage());
-      return "Error sending email " + this.index + " to " + this.to;
-    });
-
-    // future.thenAccept(result -> System.out.println("Status: " + result));
-    future.thenAccept(result -> {}); // Remove msg for tidier output
+    System.out.println(Thread.currentThread().getName() + " :: Sending email " + this.index + " to " + this.to + " asynchronously");
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      throw new RuntimeException("Thread.sleep encountered error");
+    }
   }
 
   @Override
